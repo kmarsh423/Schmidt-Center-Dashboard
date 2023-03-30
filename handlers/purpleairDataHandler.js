@@ -26,10 +26,11 @@ const rawData = async () => {
       }
     );
 
-    fetch(`https://www.purpleair.com/json?show=${formattedSensorIds}`, {
+    fetch(`https://api.purpleair.com/v1/sensors?show=${formattedSensorIds}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
+        'api_key': 'put key here'
       }
     })
       .then((fromServer) => fromServer.json())
