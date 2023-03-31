@@ -30,7 +30,7 @@ const rawData = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-        'api_key': 'put key here'
+        'api_key': '1182661F-CF65-11ED-B6F4-42010A800007'
       }
     })
       .then((fromServer) => fromServer.json())
