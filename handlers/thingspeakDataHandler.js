@@ -1,8 +1,8 @@
 //import { aqiFromPM, getAQIDescription, getAQIMessage } from "./AQIcalculator.js";
 //import { getUpdatedSensorsData } from "./purpleairDataHandler.js";
 var fetch = require('node-fetch');
-var purpleairHandler = require('../handlers/purpleairDataHandler')
-var AQICalculator = require('../handlers/AQIcalculator');
+var purpleairHandler = require('../handlers/purpleairDataHandler.js')
+var AQICalculator = require('../handlers/AQIcalculator.js');
 
 /**
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
