@@ -22,7 +22,7 @@ const getSingleSensorData = async(sensor_ID, channel_id, API_key, start_date, en
         console.log(url)
         fetch(url).then(res => res.json())
         .then(response => {
-            //console.log(response)
+            console.log(response)
             if(response.status) {
                 if(response.status !== 200) {throw new Error(response.message)}
             }
