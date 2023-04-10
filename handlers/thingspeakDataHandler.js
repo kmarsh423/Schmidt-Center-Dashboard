@@ -21,7 +21,13 @@ const getSingleSensorData = async(sensor_ID, API_key, start_date, end_date) =>
         const url = `https://api.purpleair.com/v1/sensors/${sensor_ID}/history?start_timestamp=${start_date}&end_timestamp=${end_date}&fields=temperature%2C%20humidity%2C%20pressure HTTP/1.1`
         
         console.log(url)
-        fetch(url).then(res => res.json())
+        fetch(url), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-key': '1182661F-CF65-11ED-B6F4-42010A800007'
+            }
+        }.then(res => res.json())
         .then(response => {
             console.log(response)
             if(response.status) {
