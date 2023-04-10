@@ -15,7 +15,7 @@ const rawData = async () => {
   return new Promise((resolve, reject) => {
     // Lists of sensors IDs
     const sensorIDs = sensors.getSensorsIDs();
-
+    console.log('Sensor IDS:', sensorIDs)
     // Format the sensor list to match purple air call for multiple entries.
     // More info here: https://docs.google.com/document/d/15ijz94dXJ-YAZLi9iZ_RaBwrZ4KtYeCy08goGBwnbCU/edit
     const formattedSensorIds = sensorIDs.reduce(
