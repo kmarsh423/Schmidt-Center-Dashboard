@@ -55,7 +55,7 @@ export async function chartData(inputs){
     console.log("received id:"+ sensorids)
     const data = await thingspeakHandler.getThingspeakProcessedData(sensorids, startdate, enddate);
     console.log('DATA: ', data);
-    console.log("SENSOR ID: ", sensor_ID)
+    console.log("SENSOR ID: ", inputs)
     data.forEach(element => {
         console.log("Feed of:" + element.sensor_ID + "Feeds:" + element.feeds);
 
