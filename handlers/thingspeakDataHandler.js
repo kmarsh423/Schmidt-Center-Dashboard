@@ -15,10 +15,11 @@ var AQICalculator = require('../handlers/AQIcalculator.js');
  * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
 
-const getSingleSensorData = async(sensor_ID, channel_id, API_key, start_date, end_date) =>
+const getSingleSensorData = async(sensor_ID, API_key, start_date, end_date) =>
 {
     return new Promise((resolve, reject) => {
-        const url = `https://api.thingspeak.com/channels/${channel_id}/feeds.json?api_key=${API_key}&start=${start_date}&end=${end_date}`;
+        const url = `https://api.purpleair.com/v1/sensors/${sensor_ID}/history?start_timestamp=${start_date}&end_timestamp=${end_date}&fields=temperature%2C%20humidity%2C%20pressure HTTP/1.1`
+        
         console.log(url)
         fetch(url).then(res => res.json())
         .then(response => {
