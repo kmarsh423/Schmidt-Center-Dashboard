@@ -28,21 +28,16 @@ const fetchData = async (sensor_ID, start_date, end_date => {
             const url = new URL(apiUrl);
             Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
-            await fetch(url)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('Network response was not ok')
-                    }
-                    return res.json()
-                })
-                .then(data => {
+            const response = await fetch(url);
+            if (!response.ok) {
+                reject(new Error('Network response was not ok'));
+                return;
+            }
+            const data = await response.json();
 
-                    const sensorData = { ...sensorData[sensor_ID], historicalData: data}
-                    resolve(sensorData);
-                })
-                .catch(error => {
-                    reject(error);
-                });
+            // Process the retrieved historical data here
+            const sensorData = { ...sensorData[sensor_ID], Data: data };
+            resolve(sensorData);
         } catch (error) {
             // Handle any errors that occurred during fetch
             reject(error);
@@ -57,7 +52,7 @@ const fetchData = async (sensor_ID, start_date, end_date => {
  * @param {*} data_to_process : Raw sensor data to be processed
  * @returns : The processed sensor data
  */
-const processData = (data_to_process) =>
+const processData = async (data_to_process) =>
 {
     const processedData = [];
     try {
