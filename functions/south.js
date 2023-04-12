@@ -1,4 +1,4 @@
-var purpleairHandler = require('../handlers/purpleairDataHandler');
+var purpleairHandler = require('../handlers/purpleAirHandler');
 exports.handler = async function (event, context) {
   var data = await purpleairHandler.getUpdatedsouthCountySensorsData();
   return {
