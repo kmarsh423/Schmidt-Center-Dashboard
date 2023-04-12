@@ -1,176 +1,122 @@
 //import { aqiFromPM, getAQIDescription, getAQIMessage } from "./AQIcalculator.js";
-//import { getSensorIDs } from "./listOfSensorsIDs.js";
+//import { getUpdatedSensorsData } from "./purpleairDataHandler.js";
 var fetch = require('node-fetch');
-
-var AQICalculator = require('../handlers/AQIcalculator');
-var sensorsList = require('../handlers/listOfSensorsIDs');
-// import sensor list from file
-var sensors = require('../handlers/listOfSensorsIDs');
+var AQICalculator = require('./AQIcalculator.js');
 
 /**
- *
- * @returns A promise. When Resolve contains the data, when Rejected contains data until rejection
+ * This function get the data from thingspeak after retreiving the sensor's channel id and API from
+ * purpleair data.
+ * @param {*} sensor_IDs: array of sensor ids to retreive the data for. Could be an array of one value 
+ * @param {*} channel_id: Thingspeak api key for the sensor.
+ * @param {*} channel_id : Thingspeak channel id for the sensor.
+ * @param {*} start_date: The start date for which to retreive the data. 
+ * @param {*} end_date: The End date for which to retreive the data. 
+ * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
-const rawData = async () => {
-  return new Promise((resolve, reject) => {
-    // Lists of sensors IDs
-    const sensorIDs = sensors.getSensorsIDs();
-    console.log('Sensor IDS:', sensorIDs)
-    // Format the sensor list to match purple air call for multiple entries.
-    // More info here: https://docs.google.com/document/d/15ijz94dXJ-YAZLi9iZ_RaBwrZ4KtYeCy08goGBwnbCU/edit
-    const formattedSensorIds = sensorIDs.reduce(
-      (finalString, currentValue, index, source) => {
-        return index < source.length
-          ? finalString + '|' + currentValue.toString()
-          : finalString + currentValue;
-      }
-    );
-    console.log(formattedSensorIds)
-    fetch(`https://api.purpleair.com/v1/sensors/:${formattedSensorIds}/ HTTP/1.1`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-key': '1182661F-CF65-11ED-B6F4-42010A800007'
-      }
-    })
-      .then((fromServer) => fromServer.json())
-      .then((jsonFromServer) => {
-        if (jsonFromServer.code) {
-          if (jsonFromServer.code !== 200) {
-            throw new Error(jsonFromServer.message);
-          }
+
+const fetchData = (sensor_ID, start_date, endDate => {
+    return new Promise((resolve, reject) => {
+        const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
+        const params = {
+            start: start_date,
+            end: endDate,
+            fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
+            key: '1182661F-CF65-11ED-B6F4-42010A800007'
+        };
+
+        const url = new URL(apiUrl);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+        fetch(url)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                return res.json()
+            })
+            .then(data => {
+
+                const sensorData = { ...sensorData[sensorId], historicalData: data}
+                resolve(sensorData);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+        
+});
+
+/**
+ * This function process the data from thingspeak ensuring proper field name
+ * @param {*} data_to_process : Raw sensor data to be processed
+ * @returns : The processed sensor data
+ */
+const processData = (data_to_process) =>
+{
+    const processedData = [];
+    try {
+        for(let element of data_to_process){
+            // Reprocessing the fields to their correct names indicated in the channels of the data
+            const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
+            let processed = element.Feeds.map(el => JSON.parse(JSON.stringify(el)
+                .replaceAll("field1", element.Channel.field1.replace(reg,""))
+                .replaceAll("field2", element.Channel.field2.replace(reg,""))
+                .replaceAll("field3", element.Channel.field3.replace(reg,""))
+                .replaceAll("field4", element.Channel.field4.replace(reg,""))
+                .replaceAll("field5", element.Channel.field5.replace(reg,""))
+                .replaceAll("field6", element.Channel.field6.replace(reg,""))
+                .replaceAll("field7", element.Channel.field7.replace(reg,""))
+                .replaceAll("field8", element.Channel.field8.replace(reg,""))
+            ))
+
+            // Adding AQI values and message to results
+            processed.forEach(el => {
+                let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(el['PM25ATM']));
+                el.AQI = calculatedAQI;
+                el.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
+                el.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
+            });
+
+            // Save processed data to new array
+            processedData.push({
+                sensor_ID: element.ID,
+                channel: element.Channel,
+                feeds: processed
+            });
+        
         }
-        resolve({
-          error: false,
-          data: jsonFromServer
-        });
-      })
-      .catch((err) => {
-        reject({
-          error: true,
-          message: err.message
-        });
-        console.log(err);
-      });
-  });
-};
-
-/* Process data for each sensors using the result
-from the purpleair api call and the list of sensor ids.
-The stats variable from the Json result holds all the 
-sensors measurements */
-const processedData = (inputData, sensor_IDs) => {
-  const processedData = {};
-  sensor_IDs.forEach((sensor_ID) => {
-    let results = inputData.results.find((read) => read.ID === sensor_ID);
-    if (results !== undefined) {
-      let stats = JSON.parse(results['Stats']);
-      let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(stats['v5']));
-
-      processedData[sensor_ID] = {
-        Primary_Channel_ID: results['THINGSPEAK_PRIMARY_ID'],
-        Primary_KEY: results['THINGSPEAK_PRIMARY_ID_READ_KEY'],
-        Secondary_Channel_ID: results['THINGSPEAK_SECONDARY_ID'],
-        Secondary_KEY: results['THINGSPEAK_SECONDARY_ID_READ_KEY'],
-        pm2_5_current: parseFloat(results['pm2_5_atm']),
-        pm2_5_24h_average: stats['v5'],
-        Label: results['Label'],
-        Latitude: results['Lat'],
-        Longitude: results['Lon'],
-        AQI: calculatedAQI,
-        AQIDescription: AQICalculator.getAQIDescription(calculatedAQI),
-        AQIMessage: AQICalculator.getAQIMessage(calculatedAQI)
-      };
-    } else {
-      console.log('could not find sensor data for ID', sensor_ID);
     }
-  });
-  return processedData;
-};
+    catch (err) {
+        console.log(err.message);
+    }
+    return processedData;
+}
 
-/**
- * Update the sensors data to be displayed on the map
- *
- */
-const updateSensorData = async () => {
-  const northCountySensors = sensorsList.getNorthCountySensorsIds(); //getNorthCountySensors();
-  const CentralCounty = sensorsList.getCentralCountySensorsIds(); //getCentralCountySensors();
-  const ruralTierSensors = sensorsList.getRuralTierSensorsIds(); //getRuralTiersSensors();
-  const innerBeltwaySensors = sensorsList.getInnerBeltwaySensorsIds(); //getInnerBeltwaySensors();
-  const southCountySensors = sensorsList.getSouthCountySensorsIds(); //getSouthCountySensors();
-  const allSensors = sensorsList.getSensorsIDs();
+// Get the processed data
+exports.getProcessedData =  async function(sensor_IDs, start_date, end_date)
+{
+    return processData((await fetchData(sensor_IDs, start_date, end_date)));
+}
 
-  let allSensorsData = {};
-  let northSensorsData = {};
-  let centralSensorData = {};
-  let ruralSensorsData = {};
-  let innerBeltwayData = {};
-  let southSensorData = {};
+// Get the raw data
+exports.getRawData =  async function(sensor_IDs, start_date, end_date)
+{
+    return (await fetchrData(sensor_IDs, start_date, end_date));
+}
 
-  try {
-    const serverJson = await rawData();
-    const sensorData = serverJson.data;
-    allSensorsData = processedData(sensorData, allSensors);
-    northSensorsData = processedData(sensorData, northCountySensors);
-    centralSensorData = processedData(sensorData, CentralCounty);
-    ruralSensorsData = processedData(sensorData, ruralTierSensors);
-    innerBeltwayData = processedData(sensorData, innerBeltwaySensors);
-    southSensorData = processedData(sensorData, southCountySensors);
-  } catch (error) {
-    console.log(error);
-  }
-
-  console.log('Updating data ...');
-
-  const recentSensorData = {
-    timestamp: Date.now(),
-    schmidtSensorsData: allSensorsData,
-    northCountySensorsData: northSensorsData,
-    centralCountySensorsData: centralSensorData,
-    ruralTierSensorsData: ruralSensorsData,
-    innerBeltwaySensorsData: innerBeltwayData,
-    southCountySensorsData: southSensorData
-  };
-
-  return recentSensorData;
-};
-
-exports.getUpdatedSensorsData = async function () {
-  return await updateSensorData();
-};
-
-exports.getUpdatedschmidtSensorsData = async function () {
-  return (await updateSensorData()).schmidtSensorsData;
-};
-
-exports.getUpdatedNorthCountySensorsData = async function () {
-  return (await updateSensorData()).northCountySensorsData;
-};
-
-exports.getUpdatedCentralCountySensorsData = async function () {
-  return (await updateSensorData()).centralCountySensorsData;
-};
-
-exports.getUpdatedRuralTierSensorsData = async function () {
-  return (await updateSensorData()).ruralTierSensorsData;
-};
-
-exports.getUpdatedInnerBeltwaySensorsData = async function () {
-  return (await updateSensorData()).innerBeltwaySensorsData;
-};
-
-exports.getUpdatedsouthCountySensorsData = async function () {
-  return (await updateSensorData()).southCountySensorsData;
-};
-
-
-// For testing
+// For testing 
 // async function logData()
 // {
-//     const sensorData = await getUpdatedSensorsData()
-//     console.log(JSON.stringify(sensorData))
+//     const sensor_IDs = [131815, 102898];
+//     console.log("testing", sensor_IDs)
+//     const start_date = "2021-10-01";
+//     const end_date = "2021-11-01";
+//     //const singleSensorData = (await getThingspeakRawData(sensor_IDs, start_date, end_date))
+//     const singleSensorData = (await getThingspeakProcessedData(sensor_IDs, start_date, end_date))
+//     console.log('Inside load data', singleSensorData);
+//     console.log(JSON.stringify(singleSensorData))
 //     const div = document.createElement('div');
-//     div.innerHTML = `<h2>What we have</h2> <br />${JSON.stringify(sensorData)}<br /><br />`;
+//     div.innerHTML = `<h2>What we have</h2> <br />${JSON.stringify(singleSensorData)}<br /><br />`;
 //     $('body').append(div);
 // }
 

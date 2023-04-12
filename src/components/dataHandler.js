@@ -1,7 +1,8 @@
 //import { aqiFromPM, getAQIDescription, getAQIMessage } from "./AQIcalculator.js";
 //import { getUpdatedSensorsData } from "./purpleairDataHandler.js";
+
 var fetch = require('node-fetch');
-var AQICalculator = require('./AQIcalculator');
+var AQICalculator = require('./AQIcalculator.js');
 
 /**
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
@@ -14,101 +15,46 @@ var AQICalculator = require('./AQIcalculator');
  * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
 
-const getSingleSensorData = async(sensor_ID, channel_id, API_key, start_date, end_date) =>
-{
+const fetchData = (sensor_ID, start_date, endDate => {
     return new Promise((resolve, reject) => {
-        const url = `https://api.purpleair.com/v1/sensors/${sensor_ID}/history?start_timestamp=${start_date}&end_timestamp=${end_date}&fields=temperature%2C%20humidity%2C%20pressure HTTP/1.1`
-        console.log(url)
-        fetch(url), {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-key': API_key
-            }
-        }.then(res => res.json())
-        .then(response => {
-            //console.log(response)
-            if(response.status) {
-                if(response.status !== 200) {throw new Error(response.message)}
-            }
- 
-            const singleSensorData = {
-                ID: sensor_ID,
-                Channel: response.channel,
-                Feeds: response.feeds
-            }
- 
-            resolve({
-                error: false,
-                data: singleSensorData
-            })
- 
-        })
-        .catch(err => {
-            const singleSensorData = {}
-            reject({
-                error: true,
-                message: err.message,
-                data: singleSensorData
-            })
-        })
-    })
-}
+        const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
+        const params = {
+            start: start_date,
+            end: endDate,
+            fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
+            key: '1182661F-CF65-11ED-B6F4-42010A800007'
+        };
 
-/**
- * This function returns thingspeak data for multiple sensors, a start date and an end date
- * @param {*} sensor_IDs : List of sensors for which to retreive the data
- * @param {*} start_date : The start date for which to retreive the data. 
- * @param {*} end_date: The End date for which to retreive the data. 
- * @returns : A list of object containing the sensors data.
- */
- 
-const getMultipleSensorData = async(sensor_IDs, start_date, end_date) =>
-{
-    const multipleSensorsData = [];
-    try {
-        // Retreive updated sensor data from purpleair
-        let purpleairData = await fetch('/.netlify/functions/processed');
-        purpleairData = await purpleairData.json();
-        //console.log("Data boom bbom", purpleairData);
-        const purpleairSchmidtSensorsData = await purpleairData.schmidtSensorsData;
-        //console.log("Data:", purpleairSchmidtSensorsData);
- 
-        for(let sensor_ID of sensor_IDs) {
-            // Get sensor data from purpleair
-            let sensorData = purpleairSchmidtSensorsData[sensor_ID];
-            if(sensorData !== undefined){
-                console.log("Data from getting data:", sensorData);
-                // Get channel id and api key for the sensor
-                let channel_id = sensorData.Primary_Channel_ID;
-                let API_key = sensorData.Primary_KEY;
-                let thisSensorData = await getSingleSensorData(sensor_ID, channel_id, API_key, start_date, end_date);
-                multipleSensorsData.push(thisSensorData.data);
-            }
-            else {
-                //alert("bad sensorid");
-            }
-            
-        }
- 
-    }
-    catch (err){
-        console.log(err.message);
-    }
- 
-    return multipleSensorsData;
- 
-}
+        const url = new URL(apiUrl);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
+        fetch(url)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                return res.json()
+            })
+            .then(data => {
+
+                const sensorData = { ...sensorData[sensorId], historicalData: data}
+                resolve(sensorData);
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
+        
+});
 
 /**
  * This function process the data from thingspeak ensuring proper field name
  * @param {*} data_to_process : Raw sensor data to be processed
  * @returns : The processed sensor data
  */
-const processThingspeakData = (data_to_process) =>
+const processData = (data_to_process) =>
 {
-    const thingspeakProcessedData = [];
+    const processedData = [];
     try {
         for(let element of data_to_process){
             // Reprocessing the fields to their correct names indicated in the channels of the data
@@ -133,7 +79,7 @@ const processThingspeakData = (data_to_process) =>
             });
 
             // Save processed data to new array
-            thingspeakProcessedData.push({
+            processedData.push({
                 sensor_ID: element.ID,
                 channel: element.Channel,
                 feeds: processed
@@ -144,21 +90,20 @@ const processThingspeakData = (data_to_process) =>
     catch (err) {
         console.log(err.message);
     }
-    return thingspeakProcessedData;
+    return processedData;
 }
 
 // Get the processed data
-export const getThingspeakProcessedData =  async function(sensor_IDs, start_date, end_date)
+exports.getProcessedData =  async function(sensor_IDs, start_date, end_date)
 {
-    return processThingspeakData((await getMultipleSensorData(sensor_IDs, start_date, end_date)));
+    return processData((await fetchData(sensor_IDs, start_date, end_date)));
 }
 
 // Get the raw data
-export const getThingspeakRawData =  async function(sensor_IDs, start_date, end_date)
+exports.getRawData =  async function(sensor_IDs, start_date, end_date)
 {
-    return (await getMultipleSensorData(sensor_IDs, start_date, end_date));
+    return (await fetchrData(sensor_IDs, start_date, end_date));
 }
-
 // For testing 
 // async function logData()
 // {
