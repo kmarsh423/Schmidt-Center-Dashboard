@@ -3,7 +3,6 @@
 
 var fetch = require('node-fetch');
 var AQICalculator = require('./AQIcalculator.js');
-var async = require('async')
 
 /**
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
@@ -37,8 +36,8 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
             const data = await response.json();
 
             // Process the retrieved historical data here
-            const sensorData = { ...sensorData[sensor_ID], Data: data };
-            resolve(sensorData);
+            
+            resolve(data);
         } catch (e) {
             // Handle any errors that occurred during fetch
             console.error(e);
