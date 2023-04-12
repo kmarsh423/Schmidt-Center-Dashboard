@@ -14,9 +14,10 @@ var async = require('async')
  * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
 
-const fetchData = async (sensor_ID, start_date, end_date => {
+const fetchData = async (sensor_ID, start_date, end_date) => {
     return new Promise(async (resolve, reject) => {
         try {
+            this.handleError();
             const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
             const params = {
                 start: start_date,
@@ -38,21 +39,22 @@ const fetchData = async (sensor_ID, start_date, end_date => {
             // Process the retrieved historical data here
             const sensorData = { ...sensorData[sensor_ID], Data: data };
             resolve(sensorData);
-        } catch (error) {
+        } catch (e) {
             // Handle any errors that occurred during fetch
-            reject(error);
+            console.error(e);
           }
+        reject()
             
     });
         
-});
+};
 
 /**
  * This function process the data from thingspeak ensuring proper field name
  * @param {*} data_to_process : Raw sensor data to be processed
  * @returns : The processed sensor data
  */
-const processData = async (data_to_process) =>
+const processData = (data_to_process) =>
 {
     const processedData = [];
     try {
