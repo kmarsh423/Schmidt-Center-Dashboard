@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^9",
     "chart.js": "^3.6.2",
+    "commonjs": "^0.0.1",
     "faker": "^5.5.3",
     "html-react-parser": "^1.4.3",
     "leaflet": "^1.7.1",
