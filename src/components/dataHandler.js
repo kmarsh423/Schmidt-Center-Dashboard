@@ -15,12 +15,12 @@ var AQICalculator = require('./AQIcalculator.js');
  * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
 
-const fetchData = (sensor_ID, start_date, endDate => {
+const fetchData = (sensor_ID, start_date, end_date => {
     return new Promise((resolve, reject) => {
         const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
         const params = {
             start: start_date,
-            end: endDate,
+            end: end_date,
             fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
             key: '1182661F-CF65-11ED-B6F4-42010A800007'
         };
@@ -37,7 +37,7 @@ const fetchData = (sensor_ID, start_date, endDate => {
             })
             .then(data => {
 
-                const sensorData = { ...sensorData[sensorId], historicalData: data}
+                const sensorData = { ...sensorData[sensor_ID], historicalData: data}
                 resolve(sensorData);
             })
             .catch(error => {

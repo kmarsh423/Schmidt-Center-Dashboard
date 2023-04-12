@@ -15,7 +15,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 
-var thingspeakHandler = require('./dataHandler');
+var purpleAirHandler = require('./dataHandler');
 
 const labels = {};
 const pm_1_atms = {};
@@ -53,7 +53,7 @@ export async function chartData(inputs){
     })
 
     console.log("received id:"+ sensorids)
-    const data = await thingspeakHandler.getProcessedData(sensorids, startdate, enddate);
+    const data = await purpleAirHandler.getProcessedData(sensorids, startdate, enddate);
     console.log('DATA: ', data);
     console.log("SENSOR ID: ", inputs)
     data.forEach(element => {
