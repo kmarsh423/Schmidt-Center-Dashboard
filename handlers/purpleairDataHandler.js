@@ -101,7 +101,7 @@ exports.getProcessedData =  async function(sensor_IDs, start_date, end_date)
 // Get the raw data
 exports.getRawData =  async function(sensor_IDs, start_date, end_date)
 {
-    return (await fetchrData(sensor_IDs, start_date, end_date));
+    return (await fetchData(sensor_IDs, start_date, end_date));
 }
 
 // For testing 
