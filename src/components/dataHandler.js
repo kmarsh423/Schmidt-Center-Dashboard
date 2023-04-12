@@ -8,41 +8,45 @@ var AQICalculator = require('./AQIcalculator.js');
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
  * purpleair data.
  * @param {*} sensor_IDs: array of sensor ids to retreive the data for. Could be an array of one value 
- * @param {*} channel_id: Thingspeak api key for the sensor.
- * @param {*} channel_id : Thingspeak channel id for the sensor.
  * @param {*} start_date: The start date for which to retreive the data. 
  * @param {*} end_date: The End date for which to retreive the data. 
  * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
 
-const fetchData = (sensor_ID, start_date, end_date => {
-    return new Promise((resolve, reject) => {
-        const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
-        const params = {
-            start: start_date,
-            end: end_date,
-            fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
-            key: '1182661F-CF65-11ED-B6F4-42010A800007'
-        };
+const fetchData = async (sensor_ID, start_date, end_date => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
+            const params = {
+                start: start_date,
+                end: end_date,
+                fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
+                key: '1182661F-CF65-11ED-B6F4-42010A800007'
+            };
 
-        const url = new URL(apiUrl);
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            const url = new URL(apiUrl);
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
-        fetch(url)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                return res.json()
-            })
-            .then(data => {
+            await fetch(url)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok')
+                    }
+                    return res.json()
+                })
+                .then(data => {
 
-                const sensorData = { ...sensorData[sensor_ID], historicalData: data}
-                resolve(sensorData);
-            })
-            .catch(error => {
-                reject(error);
-            });
+                    const sensorData = { ...sensorData[sensor_ID], historicalData: data}
+                    resolve(sensorData);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        } catch (error) {
+            // Handle any errors that occurred during fetch
+            reject(error);
+          }
+            
     });
         
 });
