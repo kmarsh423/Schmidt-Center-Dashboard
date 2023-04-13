@@ -77,12 +77,11 @@ export default function HandleInputForm () {
     pm_10: false
   });
   const [result, setresult] = useState("");
-  console.log(inputs)
 
   const handleChange = (e) => {
     setInputs((oldValues) => ({
       ...oldValues,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.match(/(?<=value=)\d+/g)
     }));
   };
 
@@ -129,8 +128,8 @@ export default function HandleInputForm () {
   useEffect(() => {
     const List = async() => await dropdownlist();
     List().then(data => {
-      const regex = /(?<=value=)\d+/g;
-      setresult(String(data.match(regex)));
+      
+      setresult(data);
       //result.push(data);
       //console.log("trfehjh: "+ result );
       //return result;
