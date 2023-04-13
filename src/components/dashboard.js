@@ -79,6 +79,7 @@ export default function HandleInputForm () {
   const [result, setresult] = useState("");
 
   const handleSensorChange = (e) => {
+    console.log(e.target)
     setInputs((oldValues) => ({
       ...oldValues,
       [e.target.name]: e.target.getAttribute('value')
@@ -86,7 +87,7 @@ export default function HandleInputForm () {
     
   };
 
-  const handleChange = (e) => {
+  const handleTimeChange = (e) => {
     setInputs((oldValues) => ({
       ...oldValues,
       [e.target.name]: e.target.value
@@ -196,7 +197,7 @@ export default function HandleInputForm () {
               id='start-date'
               name='startdate'
               value={inputs.startdate}
-              onChange={handleChange}
+              onChange={handleTimeChange}
               required
             ></input>
             <br/>
@@ -206,7 +207,7 @@ export default function HandleInputForm () {
               id='end-date'
               name='enddate'
               value={inputs.enddate}
-              onChange={handleChange}
+              onChange={handleTimeChange}
               required
             ></input>
           </div>
