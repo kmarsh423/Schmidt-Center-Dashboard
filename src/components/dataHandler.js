@@ -16,8 +16,7 @@ const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
 const fetchData = async (sensor_ID, start_date, end_date) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID} HTTP/1.1
-            X-API-Key: ${api_key}`;
+            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}` ;
             const params = {
                 start: start_date,
                 end: end_date,
@@ -25,9 +24,19 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
             };
 
             const url = new URL(apiUrl);
-            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
-            const response = await fetch(url);
+            const headers = new Headers();
+            headers.append('X-API-Key', api_key); // Replace with your API key
+
+            const request = new Request(url, {
+                method: 'GET',
+                headers: headers,
+                mode: 'cors',
+                cache: 'default'
+            });
+
+            const response = await fetch(request);
             if (!response.ok) {
                 reject(new Error('Network response was not ok'));
                 return;
@@ -35,16 +44,14 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
             const data = await response.json();
 
             // Process the retrieved historical data here
-            
+
             resolve(data);
         } catch (e) {
             // Handle any errors that occurred during fetch
             console.error(e);
-          }
-        
-            
+            reject(e);
+        }
     });
-        
 };
 
 /**
