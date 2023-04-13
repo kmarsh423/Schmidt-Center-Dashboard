@@ -58,7 +58,7 @@ const dropdownlist = async() => {
   //dropdata.push(select)
   const regex = /(?<=value=)\d+/g;
   console.log(select.match(regex))
-  return select.match(regex);
+  return String(select.match(regex));
 }
 
 export default function HandleInputForm () {
