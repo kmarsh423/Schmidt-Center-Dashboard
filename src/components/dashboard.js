@@ -21,7 +21,7 @@ const dropdownlist = async() => {
     //data = data.json();
     const sensoridlists = await data.json();
     //setSensoridlists(data);
-    console.log("ID Lists: " + sensoridlists)
+    console.log("ID Lists: ", sensoridlists)
     for(let key in sensoridlists){
       if(sensoridlists.hasOwnProperty(key)){
           if(sensoridlists[key].Region === "North County"){
