@@ -79,7 +79,7 @@ export default function HandleInputForm () {
   const [result, setresult] = useState("");
 
   const handleSensorChange = (e) => {
-    console.log(e.target.selectedOptions[0]['__reactProps$pb9t93eo3nk'])
+    console.log(e.target.selectedOptions)
     setInputs((oldValues) => ({
       ...oldValues,
       [e.target.name]: String(e.target.innerHTML.match(/(?<=value=)\d+/g))
