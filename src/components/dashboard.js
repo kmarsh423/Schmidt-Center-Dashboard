@@ -56,9 +56,9 @@ const dropdownlist = async() => {
   select = select.concat(north, south, central, rural, inner);
   //select += "</div>";
   //dropdata.push(select)
-  const regex = /(?<=value=)\d+/g;
-  console.log(select.match(regex))
-  return String(select.match(regex));
+  
+
+  return select;
 }
 
 export default function HandleInputForm () {
@@ -77,7 +77,7 @@ export default function HandleInputForm () {
     pm_10: false
   });
   const [result, setresult] = useState("");
-
+  console.log(inputs)
 
   const handleChange = (e) => {
     setInputs((oldValues) => ({
