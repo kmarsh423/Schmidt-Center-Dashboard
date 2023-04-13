@@ -15,7 +15,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 
-import { getProcessedData } from './handlers/purpleAirHandler.js';
+import { getProcessedData } from './dataHandler.js';
 
 const labels = {};
 const pm_1_atms = {};
