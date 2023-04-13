@@ -78,13 +78,20 @@ export default function HandleInputForm () {
   });
   const [result, setresult] = useState("");
 
-  const handleChange = (e) => {
+  const handleSensorChange = (e) => {
     setInputs((oldValues) => ({
       ...oldValues,
       [e.target.name]: e.target.getAttribute('value')
     }));
     
   };
+
+  const handleChange = (e) => {
+    setInputs((oldValues) => ({
+      ...oldValues,
+      [e.target.name]: e.target.value
+    }))
+  }
 
   const handleCheckboxChange = (e) => {
     setInputs((oldValues) => ({
@@ -161,7 +168,7 @@ export default function HandleInputForm () {
               htmlFor='sensor-id'
               className='font-medium pb-1'
               value={inputs.sensorid}
-              onChange={handleChange}
+              onChange={handleSensorChange}
               required
             >
               <option value="" disabled defaultValue hidden>Primary Sensor (required)</option>
@@ -174,7 +181,7 @@ export default function HandleInputForm () {
               htmlFor='sensor-id2'
               className='font-medium'
               value={inputs.sensorid2}
-              onChange={handleChange}
+              onChange={handleSensorChange}
             >
               <option value="" disabled defaultValue hidden>Second Sensor (optional)</option>
               <option value="" >None</option>
