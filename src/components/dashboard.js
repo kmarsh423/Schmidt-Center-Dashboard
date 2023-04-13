@@ -56,9 +56,9 @@ const dropdownlist = async() => {
   select = select.concat(north, south, central, rural, inner);
   //select += "</div>";
   //dropdata.push(select)
-  const regex = /value=(\d+)/g;
+  const regex = /(?<=value=)\d+/g;
   console.log(select.match(regex))
-  return select;
+  return select.match(regex);
 }
 
 export default function HandleInputForm () {
