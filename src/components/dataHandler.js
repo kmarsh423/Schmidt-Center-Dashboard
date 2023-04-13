@@ -3,7 +3,7 @@
 
 var fetch = require('node-fetch');
 var AQICalculator = require('./AQIcalculator.js');
-
+const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
 /**
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
  * purpleair data.
@@ -16,12 +16,12 @@ var AQICalculator = require('./AQIcalculator.js');
 const fetchData = async (sensor_ID, start_date, end_date) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
+            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID} HTTP/1.1
+            X-API-Key: ${api_key}`;
             const params = {
                 start: start_date,
                 end: end_date,
-                fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
-                key: '1182661F-CF65-11ED-B6F4-42010A800007'
+                fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature'
             };
 
             const url = new URL(apiUrl);
