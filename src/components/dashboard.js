@@ -172,7 +172,7 @@ export default function HandleInputForm () {
               onChange={handleSensorChange}
               required
             >
-              <option value="">Primary Sensor (required)</option>
+              <option value="" disabled defaultValue hidden>Primary Sensor (required)</option>
               {Parser(result )}
             </select>
             <select
@@ -184,7 +184,7 @@ export default function HandleInputForm () {
               value={inputs.sensorid2}
               onChange={handleSensorChange}
             >
-              <option value="">Second Sensor (optional)</option>
+              <option value="" disabled defaultValue hidden>Second Sensor (optional)</option>
               <option value="" >None</option>
               {Parser(result)}
             </select>
