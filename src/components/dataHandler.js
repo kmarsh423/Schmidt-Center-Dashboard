@@ -42,7 +42,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
                 return;
             }
             const data = await response.json();
-
+            console.log('res = ', data)
             // Process the retrieved historical data here
 
             resolve(data);
