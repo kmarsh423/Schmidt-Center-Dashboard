@@ -16,7 +16,6 @@ var AQICalculator = require('./AQIcalculator.js');
 const fetchData = async (sensor_ID, start_date, end_date) => {
     return new Promise(async (resolve, reject) => {
         try {
-            this.handleError();
             const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}`;
             const params = {
                 start: start_date,
@@ -42,7 +41,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
             // Handle any errors that occurred during fetch
             console.error(e);
           }
-        reject()
+        
             
     });
         
@@ -95,14 +94,12 @@ const processData = (data_to_process) =>
 }
 
 // Get the processed data
-exports.getProcessedData =  async function(sensor_IDs, start_date, end_date)
-{
+async function getProcessedData( sensor_IDs, start_date, end_date) {
     return processData((await fetchData(sensor_IDs, start_date, end_date)));
 }
 
 // Get the raw data
-exports.getRawData =  async function(sensor_IDs, start_date, end_date)
-{
+async function getRawData(sensor_IDs, start_date, end_date) {
     return (await fetchData(sensor_IDs, start_date, end_date));
 }
 // For testing 
