@@ -79,7 +79,7 @@ export default function HandleInputForm () {
   const [result, setresult] = useState("");
 
   const handleSensorChange = (e) => {
-    console.log(e.target)
+    console.log(e.target.innerHTML)
     setInputs((oldValues) => ({
       ...oldValues,
       [e.target.name]: e.target.getAttribute('value')
