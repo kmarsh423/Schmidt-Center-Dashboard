@@ -99,9 +99,9 @@ export async function getProcessedData( sensor_IDs, start_date, end_date) {
 }
 
 // Get the raw data
-async function getRawData(sensor_IDs, start_date, end_date) {
-    return (await fetchData(sensor_IDs, start_date, end_date));
-}
+// async function getRawData(sensor_IDs, start_date, end_date) {
+//     return (await fetchData(sensor_IDs, start_date, end_date));
+// }
 // For testing 
 // async function logData()
 // {
