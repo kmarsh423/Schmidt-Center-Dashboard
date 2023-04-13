@@ -129,8 +129,8 @@ export default function HandleInputForm () {
   useEffect(() => {
     const List = async() => await dropdownlist();
     List().then(data => {
-      console.log(data)
-      setresult(data);
+      const regex = /(?<=value=)\d+/g;
+      setresult(String(data.match(regex)));
       //result.push(data);
       //console.log("trfehjh: "+ result );
       //return result;
