@@ -81,7 +81,7 @@ export default function HandleInputForm () {
   const handleChange = (e) => {
     setInputs((oldValues) => ({
       ...oldValues,
-      [e.target.name]: e.target.match(/(?<=value=)\d+/g)
+      [e.target.name]: e.target.value.match(/(?<=value=)\d+/g)
     }));
   };
 
