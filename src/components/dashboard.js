@@ -129,6 +129,7 @@ export default function HandleInputForm () {
   useEffect(() => {
     const List = async() => await dropdownlist();
     List().then(data => {
+      console.log(data)
       setresult(data);
       //result.push(data);
       //console.log("trfehjh: "+ result );
