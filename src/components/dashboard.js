@@ -82,7 +82,7 @@ export default function HandleInputForm () {
     console.log(Object.values(Object.values(e.target.selectedOptions)[0])[1].defaultValue)
     setInputs((oldValues) => ({
       ...oldValues,
-      [e.target.name]: String(e.target.innerHTML.match(/(?<=value=)\d+/g))
+      [e.target.name]: String(Object.values(Object.values(e.target.selectedOptions)[0])[1].defaultValue)
     }));
     
   };
