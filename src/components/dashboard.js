@@ -52,11 +52,11 @@ const dropdownlist = async() => {
   central += "</optgroup>";
   inner += "</optgroup>";
   rural += "</optgroup>";
-
+  
   select = select.concat(north, south, central, rural, inner);
   //select += "</div>";
   //dropdata.push(select)
-
+  console.log(select)
   return select;
 }
 
