@@ -51,11 +51,9 @@ export async function chartData(inputs){
             aqi_descriptions[sensor] = [];
         }
     })
-
-    console.log("inputs:", inputs)
     const data = await getProcessedData(sensorids, startdate, enddate);
     console.log('DATA: ', data);
-    console.log("SENSOR ID: ", inputs)
+    console.log("SENSOR ID: ", sensorids)
     data.forEach(element => {
         console.log("Feed of:" + element.sensor_ID + "Feeds:" + element.feeds);
 
