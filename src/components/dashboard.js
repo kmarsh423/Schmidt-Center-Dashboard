@@ -82,7 +82,7 @@ export default function HandleInputForm () {
     console.log(e.target.innerHTML)
     setInputs((oldValues) => ({
       ...oldValues,
-      [e.target.name]: e.target.getAttribute('value')
+      [e.target.name]: String(e.target.innerHTML.match(/(?<=value=)\d+/g))
     }));
     
   };
