@@ -168,7 +168,7 @@ export default function HandleInputForm () {
               name='sensorid'
               htmlFor='sensor-id'
               className='font-medium pb-1'
-              value={inputs.sensorid}
+              value={inputs}
               onChange={handleSensorChange}
               required
             >
