@@ -52,7 +52,7 @@ export async function chartData(inputs){
         }
     })
 
-    console.log("received id:"+ sensorids)
+    console.log("inputs:"+ inputs)
     const data = await getProcessedData(sensorids, startdate, enddate);
     console.log('DATA: ', data);
     console.log("SENSOR ID: ", inputs)
