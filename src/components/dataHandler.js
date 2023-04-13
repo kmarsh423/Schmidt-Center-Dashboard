@@ -94,7 +94,7 @@ const processData = (data_to_process) =>
 }
 
 // Get the processed data
-async function getProcessedData( sensor_IDs, start_date, end_date) {
+export async function getProcessedData( sensor_IDs, start_date, end_date) {
     return processData((await fetchData(sensor_IDs, start_date, end_date)));
 }
 
