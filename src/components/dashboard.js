@@ -66,7 +66,7 @@ export default function HandleInputForm () {
   // const ctx = canvasObj.getContext('2d');
   const [inputs, setInputs] = useState({
     sensorid: '',
-    sensorid2:'',
+    // sensorid2:'',
     startdate: '',
     enddate: '',
     temperature: false,
@@ -175,7 +175,7 @@ export default function HandleInputForm () {
               <option value="" disabled defaultValue hidden>Primary Sensor (required)</option>
               {Parser(result )}
             </select>
-            <select
+            {/* <select
               type='number'
               id='sensor-id2'
               name='sensorid2'
@@ -187,7 +187,7 @@ export default function HandleInputForm () {
               <option value="" disabled defaultValue hidden>Second Sensor (optional)</option>
               <option value="" >None</option>
               {Parser(result)}
-            </select>
+            </select> */}
             <h2 className='text-blue-600 mb-2 mt-2 px-1'>
               <b>Select Dates:</b>
             </h2>
