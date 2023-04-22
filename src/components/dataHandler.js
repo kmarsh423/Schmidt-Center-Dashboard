@@ -65,21 +65,12 @@ const processData = (data_to_process) =>
     try {
         
         // Reprocessing the fields to their correct names indicated in the channels of the data
-        const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
-        const processed = data_to_process.sensor.map(el => JSON.parse(JSON.stringify(el)
-            .replaceAll("field1", data_to_process.sensor.Channel.field1.replace(reg,""))
-            .replaceAll("field2", data_to_process.sensor.Channel.field2.replace(reg,""))
-            .replaceAll("field3", data_to_process.sensor.Channel.field3.replace(reg,""))
-            .replaceAll("field4", data_to_process.sensor.Channel.field4.replace(reg,""))
-            .replaceAll("field5", data_to_process.sensor.Channel.field5.replace(reg,""))
-            .replaceAll("field6", data_to_process.sensor.Channel.field6.replace(reg,""))
-            .replaceAll("field7", data_to_process.sensor.Channel.field7.replace(reg,""))
-            .replaceAll("field8", data_to_process.sensor.Channel.field8.replace(reg,""))
-        ))
+        // const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
+        const processed = data_to_process.sensor
 
         // Adding AQI values and message to results
         processed.forEach(el => {
-            let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(el['PM25ATM']));
+            let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(el["pm2.5"]));
             el.AQI = calculatedAQI;
             el.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
             el.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
@@ -87,8 +78,7 @@ const processData = (data_to_process) =>
 
         // Save processed data to new array
         processedData.push({
-            sensor_ID: data_to_process.sensor.ID,
-            channel: data_to_process.sensor.Channel,
+            sensor_ID: data_to_process.sensor.sensor_index,
             feeds: processed
         });
     
