@@ -352,7 +352,7 @@ export const data2 = (inputs) => {
 export function ShowChart(inputs){
 
     console.log("Here we are");
-
+    console.log('inputs:',inputs)
     const [error, setError] = useState(null);   
     const [isLoaded, setIsLoaded] = useState(false);
 
