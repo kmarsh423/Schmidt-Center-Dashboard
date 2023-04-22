@@ -52,25 +52,24 @@ export async function chartData(inputs){
         }
     })
     const data = await getProcessedData(sensorids, startdate, enddate);
-    console.log('DATA: ', data);
+    console.log('DATA: ', data[0].feeds);
     console.log("SENSOR ID: ", sensorids)
-    data.forEach(element => {
-        console.log("Feed of:" + element.sensor_ID + "Feeds:" + element.feeds);
+    
+    console.log("Feed of:" + data[0].sensor_ID + "Feeds:" + data[0].feeds);
 
-        element.feeds.forEach(feed => {
-            labels[element.sensor_ID].push(feed.created_at);
-            temperatures[element.sensor_ID].push(feed.Temperature);
-            humidities[element.sensor_ID].push(feed.Humidity);
-            aqis[element.sensor_ID].push(feed.AQI);
-            pm_2_5_atms[element.sensor_ID].push(feed.PM25ATM);
-            pm_10_atms[element.sensor_ID].push(feed.PM100ATM);
-            pm_1_atms[element.sensor_ID].push(feed.PM10ATM);
-            aqi_descriptions[element.sensor_ID].push(feed.AQIDescription);
-        });
-
-        console.log("Humidities" + JSON.stringify(humidities))
-        
+    data[0].feeds.forEach(feed => {
+        labels[data[0].sensor_ID].push(feed.created_at);
+        temperatures[data[0].sensor_ID].push(feed.Temperature);
+        humidities[data[0].sensor_ID].push(feed.Humidity);
+        aqis[data[0].sensor_ID].push(feed.AQI);
+        pm_2_5_atms[data[0].sensor_ID].push(feed.PM25ATM);
+        pm_10_atms[data[0].sensor_ID].push(feed.PM100ATM);
+        pm_1_atms[data[0].sensor_ID].push(feed.PM10ATM);
+        aqi_descriptions[data[0].sensor_ID].push(feed.AQIDescription);
     });
+
+    console.log("Humidities" + JSON.stringify(humidities))
+    
     
 }
 

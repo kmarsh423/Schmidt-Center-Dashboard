@@ -60,7 +60,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
  */
 const processData = (data_to_process) =>
 {
-    console.log(data_to_process.sensor)
+    console.log(data_to_process)
     const processedData = [];
     try {
         
