@@ -60,7 +60,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
  */
 const processData = (data_to_process) =>
 {
-    console.log(data_to_process)
+    console.log(data_to_process.sensor)
     const processedData = [];
     try {
         
@@ -69,13 +69,12 @@ const processData = (data_to_process) =>
         const processed = data_to_process.sensor
 
         // Adding AQI values and message to results
-        processed.forEach(el => {
-            let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(el["pm2.5"]));
-            el.AQI = calculatedAQI;
-            el.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
-            el.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
-        });
-
+        
+        let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(processed["pm2.5"]));
+        processed.AQI = calculatedAQI;
+        processed.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
+        processed.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
+        
         // Save processed data to new array
         processedData.push({
             sensor_ID: data_to_process.sensor.sensor_index,
