@@ -66,7 +66,7 @@ const processData = (data_to_process) =>
         
         // Reprocessing the fields to their correct names indicated in the channels of the data
         const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
-        let processed = data_to_process.sensor.Feeds.map(el => JSON.parse(JSON.stringify(el)
+        const processed = data_to_process.sensor.map(el => JSON.parse(JSON.stringify(el)
             .replaceAll("field1", data_to_process.sensor.Channel.field1.replace(reg,""))
             .replaceAll("field2", data_to_process.sensor.Channel.field2.replace(reg,""))
             .replaceAll("field3", data_to_process.sensor.Channel.field3.replace(reg,""))
