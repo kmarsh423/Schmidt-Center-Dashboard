@@ -55,7 +55,7 @@ export async function chartData(inputs){
     console.log('DATA: ', data[0].feeds);
     console.log("SENSOR ID: ", sensorids)
     
-    console.log("Feed of:" + data[0].sensor_ID + "Feeds:" + data[0].feeds);
+    console.log("Feed of:", data[0].sensor_ID, "Feeds:", data[0].feeds);
 
     labels[data[0].sensor_ID].push(data[0].time_stamp);
     temperatures[data[0].sensor_ID].push(data[0].feeds.temperature);
@@ -141,7 +141,7 @@ export const data = (inputs) => {
         datasets: [] 
     };
 
-    
+    console.log(inputs)
     const sensor = inputs.sensorid;
     let label = 'Primary Sensor ';
         // Sensor Temperature data
