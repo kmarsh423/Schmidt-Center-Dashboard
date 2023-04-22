@@ -63,36 +63,36 @@ const processData = (data_to_process) =>
     console.log(data_to_process)
     const processedData = [];
     try {
-        for(let element of data_to_process){
-            // Reprocessing the fields to their correct names indicated in the channels of the data
-            const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
-            let processed = element.Feeds.map(el => JSON.parse(JSON.stringify(el)
-                .replaceAll("field1", element.Channel.field1.replace(reg,""))
-                .replaceAll("field2", element.Channel.field2.replace(reg,""))
-                .replaceAll("field3", element.Channel.field3.replace(reg,""))
-                .replaceAll("field4", element.Channel.field4.replace(reg,""))
-                .replaceAll("field5", element.Channel.field5.replace(reg,""))
-                .replaceAll("field6", element.Channel.field6.replace(reg,""))
-                .replaceAll("field7", element.Channel.field7.replace(reg,""))
-                .replaceAll("field8", element.Channel.field8.replace(reg,""))
-            ))
-
-            // Adding AQI values and message to results
-            processed.forEach(el => {
-                let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(el['PM25ATM']));
-                el.AQI = calculatedAQI;
-                el.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
-                el.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
-            });
-
-            // Save processed data to new array
-            processedData.push({
-                sensor_ID: element.ID,
-                channel: element.Channel,
-                feeds: processed
-            });
         
-        }
+        // Reprocessing the fields to their correct names indicated in the channels of the data
+        const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
+        let processed = data_to_process.sensor.Feeds.map(el => JSON.parse(JSON.stringify(el)
+            .replaceAll("field1", data_to_process.sensor.Channel.field1.replace(reg,""))
+            .replaceAll("field2", data_to_process.sensor.Channel.field2.replace(reg,""))
+            .replaceAll("field3", data_to_process.sensor.Channel.field3.replace(reg,""))
+            .replaceAll("field4", data_to_process.sensor.Channel.field4.replace(reg,""))
+            .replaceAll("field5", data_to_process.sensor.Channel.field5.replace(reg,""))
+            .replaceAll("field6", data_to_process.sensor.Channel.field6.replace(reg,""))
+            .replaceAll("field7", data_to_process.sensor.Channel.field7.replace(reg,""))
+            .replaceAll("field8", data_to_process.sensor.Channel.field8.replace(reg,""))
+        ))
+
+        // Adding AQI values and message to results
+        processed.forEach(el => {
+            let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(el['PM25ATM']));
+            el.AQI = calculatedAQI;
+            el.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
+            el.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
+        });
+
+        // Save processed data to new array
+        processedData.push({
+            sensor_ID: data_to_process.sensor.ID,
+            channel: data_to_process.sensor.Channel,
+            feeds: processed
+        });
+    
+        
     }
     catch (err) {
         console.log(err.message);
