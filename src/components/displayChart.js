@@ -233,122 +233,6 @@ export const data = (inputs) => {
  * @param {*} inputs 
  * @returns 
  */
-export const data2 = (inputs) => {
-    const data = {
-        labels: labels[inputs.sensorid],
-        datasets: [] 
-    };
-
-
-    const sensorids = [inputs.sensorid, inputs.sensorid2];
-    sensorids.forEach(sensor => {
-        let label = '';
-        let yaxis = '';
-        if(sensor === inputs.sensorid){
-            label = 'Primary Sensor ';
-            yaxis = 'y';
-        }else{
-            label = 'Secondary Sensor ';
-            yaxis = 'y1';
-        }
-        // Sensor Temperature data
-        if(inputs.temperature) {
-            const color = getColor();
-            const backgroundColor = getBackgroundColor(color);
-            data.datasets.push(
-                {
-                    label: label.concat('Temperature'),
-                    data: temperatures[sensor],
-                    borderColor: color,
-                    backgroundColor: backgroundColor,
-                    yAxisID: yaxis,
-                }
-            )
-        }
-
-        if(inputs.humidity) {
-            const color = getColor();
-            const backgroundColor = getBackgroundColor(color);
-            data.datasets.push(
-                {
-                    label: label.concat('Humidity'),
-                    data: humidities[sensor],
-                    borderColor: color,
-                    backgroundColor: backgroundColor,
-                    yAxisID: yaxis,
-                }
-            )
-        }
-
-        if(inputs.aqi) {
-            const color = getColor();
-            const backgroundColor = getBackgroundColor(color);
-            data.datasets.push(
-                {
-                    label: label.concat('AQI (Air Quality Index)'),
-                    data: aqis[sensor],
-                    borderColor: color,
-                    backgroundColor: backgroundColor,
-                    yAxisID: yaxis,
-                }
-            )
-        }
-
-        if(inputs.pm_25) {
-            const color = getColor();
-            const backgroundColor = getBackgroundColor(color);
-            data.datasets.push(
-                {
-                    label: label.concat('PM 2.5 ATM'),
-                    data: pm_2_5_atms[sensor],
-                    borderColor: color,
-                    backgroundColor: backgroundColor,
-                    yAxisID: yaxis,
-                }
-            )
-        }
-
-        if(inputs.pm_1) {
-            const color = getColor();
-            const backgroundColor = getBackgroundColor(color);
-            data.datasets.push(
-                {
-                    label: label.concat('PM 1.0 ATM'),
-                    data: pm_1_atms[sensor],
-                    borderColor: color,
-                    backgroundColor: backgroundColor,
-                    yAxisID: yaxis,
-                }
-            )
-        }
-
-        if(inputs.pm_10) {
-            const color = getColor();
-            const backgroundColor = getBackgroundColor(color);
-            data.datasets.push(
-                {
-                    label: label.concat('PM 10 ATM'),
-                    data: pm_10_atms[sensor],
-                    borderColor: color,
-                    backgroundColor: backgroundColor,
-                    yAxisID: yaxis,
-                }
-            )
-        }
-
-        
-
-    });
-
-    return data;
-
-}
-
-/**
- * 
- * @param {*} inputs 
- * @returns 
- */
 export function ShowChart(inputs){
 
     console.log("Here we are");
@@ -382,15 +266,7 @@ export function ShowChart(inputs){
         return <div>Loading...</div>;
 
     } else {
-
-        if(inputs.sensorid2 !== ""){
-            return (
-                <div>
-                    <Line options={options2} data={data2(inputs)} />
-                </div>
-            );
-        }
-
+        console.log(data(inputs))
         return (
             <div>
                 <Line options={options} data={data(inputs)} />
