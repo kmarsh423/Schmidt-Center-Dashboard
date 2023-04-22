@@ -42,7 +42,6 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
                 return;
             }
             const data = await response.json();
-            console.log('res = ', data)
             // Process the retrieved historical data here
 
             resolve(data);
@@ -61,6 +60,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
  */
 const processData = (data_to_process) =>
 {
+    console.log(data_to_process)
     const processedData = [];
     try {
         for(let element of data_to_process){
