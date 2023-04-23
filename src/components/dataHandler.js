@@ -20,7 +20,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
             const params = {
                 start: start_date,
                 end: end_date,
-                fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature'
+                fields: 'pm1.0_atm,pm2.5_alt,pm10.0_atm,pressure,humidity,temperature'
             };
 
             const url = new URL(apiUrl);
