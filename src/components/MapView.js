@@ -81,6 +81,7 @@ function MapView() {
       try {
         let data = await fetch('/.netlify/functions/processed');
         data = await data.json();
+        console.log(data)
         setSensorData({
           allSensors: data.schmidtSensorsData,
           north: data.northCountySensorsData,
