@@ -126,7 +126,7 @@ exports.getSensorsIDs = function(){
 }
 
 const getsensorIDsbyregion = function(region) {
-
+    console.log(region, ' ',sensorIdsLabel)
     const sensorIDslist = [];
     for(let key in sensorIdsLabel){
 
