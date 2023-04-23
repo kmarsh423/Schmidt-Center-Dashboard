@@ -52,7 +52,6 @@ export async function chartData(inputs){
         }
     })
     const data = await getProcessedData(sensorids, startdate, enddate);
-    console.log("Feed of:", data[0].sensor_ID, "Feeds:", data[0].feeds);
 
     labels[data[0].sensor_ID].push(data[0].time_stamp);
     temperatures[data[0].sensor_ID].push(data[0].feeds.temperature);
@@ -236,7 +235,6 @@ export const data = (inputs) => {
 export function ShowChart(inputs){
 
     console.log("Here we are");
-    console.log('inputs:',inputs)
     const [error, setError] = useState(null);   
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -266,7 +264,7 @@ export function ShowChart(inputs){
         return <div>Loading...</div>;
 
     } else {
-        console.log(data(inputs))
+
         return (
             <div>
                 <Line options={options} data={data(inputs)} />

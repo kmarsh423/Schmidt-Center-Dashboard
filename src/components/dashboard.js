@@ -102,7 +102,7 @@ export default function HandleInputForm () {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const rootElement = document.getElementById('chart-display');
     const Display = () => displayChart.ShowChart(inputs);
     render(<Display />, rootElement);
@@ -144,9 +144,6 @@ export default function HandleInputForm () {
       //return result;
     }) 
   });
-
-
-  //console.log("tr09h: "+ result );
 
   return (
     <div>
