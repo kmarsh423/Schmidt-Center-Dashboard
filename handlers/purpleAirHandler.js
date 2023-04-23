@@ -2,7 +2,7 @@
 //import { getUpdatedSensorsData } from "./purpleairDataHandler.js";
 var fetch = require('node-fetch');
 var AQICalculator = require('./AQIcalculator.js');
-
+const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
 /**
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
  * purpleair data.
@@ -14,37 +14,45 @@ var AQICalculator = require('./AQIcalculator.js');
  * @returns: Returns a Promise. When resolved contains the data retreived for a single sensor. 
  */
 
-const fetchData = (sensorId, startDate, endDate => {
-    return new Promise((resolve, reject) => {
-        const apiUrl = `https://api.purpleair.com/v1/sensors/${sensorId}`;
-        const params = {
-            start: startDate,
-            end: endDate,
-            fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature',
-            key: '1182661F-CF65-11ED-B6F4-42010A800007'
-        };
+const fetchData = async (sensor_ID, start_date, end_date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}` ;
+            const params = {
+                start: start_date,
+                end: end_date,
+                fields: 'pm1.0,pm2.5,pm10.0,pressure,humidity,temperature'
+            };
 
-        const url = new URL(apiUrl);
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+            const url = new URL(apiUrl);
+            Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
-        fetch(url)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                return res.json()
-            })
-            .then(data => {
+            const headers = new Headers();
+            headers.append('X-API-Key', api_key); // Replace with your API key
 
-                const sensorData = { ...sensorData[sensorId], historicalData: data}
-                resolve(sensorData);
-            })
-            .catch(error => {
-                reject(error);
+            const request = new Request(url, {
+                method: 'GET',
+                headers: headers,
+                mode: 'cors',
+                cache: 'default'
             });
+
+            const response = await fetch(request);
+            if (!response.ok) {
+                reject(new Error('Network response was not ok'));
+                return;
+            }
+            const data = await response.json();
+            // Process the retrieved historical data here
+
+            resolve(data);
+        } catch (e) {
+            // Handle any errors that occurred during fetch
+            console.error(e);
+            reject(e);
+        }
     });
-        
-});
+};
 
 /**
  * This function process the data from thingspeak ensuring proper field name

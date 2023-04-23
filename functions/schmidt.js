@@ -1,4 +1,4 @@
-var purpleairHandler = require('../handlers/purpleairDataHandler');
+var purpleairHandler = require('../handlers/purpleairDataHandler.js');
 exports.handler = async function (event, context) {
   var data = await purpleairHandler.getUpdatedschmidtSensorsData();
   return {
