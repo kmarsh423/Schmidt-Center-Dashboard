@@ -63,8 +63,8 @@ export async function chartData(inputs){
     pm_10_atms[data[0].sensor_ID].push(data[0].feeds["pm10.0"]);
     pm_1_atms[data[0].sensor_ID].push(data[0].feeds["pm1.0"]);
     aqi_descriptions[data[0].sensor_ID].push(data[0].feeds.AQIDescription);
-    startdates[data[0].startdate].push(data[0].feeds.startdate);
-    endates[data[0].endate].push(data[0].feeds.enddate)
+    startdates[data[0].startdate].push(startdate);
+    endates[data[0].endate].push(enddate)
 
     console.log("Humidities" + JSON.stringify(humidities))
     

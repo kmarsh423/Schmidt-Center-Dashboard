@@ -58,7 +58,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
  * @param {*} data_to_process : Raw sensor data to be processed
  * @returns : The processed sensor data
  */
-const processData = (data_to_process, startdate, enddate) =>
+const processData = (data_to_process) =>
 {
     console.log(data_to_process)
     const processedData = [];
@@ -74,8 +74,6 @@ const processData = (data_to_process, startdate, enddate) =>
         processed.AQI = calculatedAQI;
         processed.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
         processed.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
-        processed.startdate = startdate
-        processed.enddate = enddate
         // Save processed data to new array
         processedData.push({
             sensor_ID: data_to_process.sensor.sensor_index,
@@ -92,7 +90,7 @@ const processData = (data_to_process, startdate, enddate) =>
 
 // Get the processed data
 export async function getProcessedData( sensor_IDs, start_date, end_date) {
-    return processData((await fetchData(sensor_IDs, start_date, end_date), start_date, end_date));
+    return processData((await fetchData(sensor_IDs, start_date, end_date)));
 }
 
 // Get the raw data
