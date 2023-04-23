@@ -125,7 +125,7 @@ exports.getSensorsIDs = function(){
     return sensorIDsList();
 }
 
-const getsensorIDsbyregion = function(region) {
+const getsensorIDsbyregion = async function(region) {
     console.log(region, ' ',sensorIdsLabel)
     const sensorIDslist = [];
     for(let key in sensorIdsLabel){
@@ -139,22 +139,22 @@ const getsensorIDsbyregion = function(region) {
     return sensorIDslist;
 }
 
-exports.getInnerBeltwaySensorsIds = function(){
-    return getsensorIDsbyregion('Inner Beltsway');
+exports.getInnerBeltwaySensorsIds = async function(){
+    return await getsensorIDsbyregion('Inner Beltsway');
 }
 
-exports.getNorthCountySensorsIds = function(){
-    return getsensorIDsbyregion('North County');
+exports.getNorthCountySensorsIds = async function(){
+    return await getsensorIDsbyregion('North County');
 }
 
-exports.getCentralCountySensorsIds = function(){
-    return getsensorIDsbyregion('Central County');
+exports.getCentralCountySensorsIds = async function(){
+    return await getsensorIDsbyregion('Central County');
 }
 
-exports.getRuralTierSensorsIds = function(){
-    return getsensorIDsbyregion('Rural Tier');
+exports.getRuralTierSensorsIds = async function(){
+    return await getsensorIDsbyregion('Rural Tier');
 }
 
-exports.getSouthCountySensorsIds = function(){
-    return getsensorIDsbyregion('South County');
+exports.getSouthCountySensorsIds = async function(){
+    return await getsensorIDsbyregion('South County');
 }
