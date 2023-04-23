@@ -67,13 +67,16 @@ const processData = (data_to_process) =>
         // Reprocessing the fields to their correct names indicated in the channels of the data
         // const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
         const processed = data_to_process
-
+        console.log(processed.data, processed.data[0][4])
         // Adding AQI values and message to results
         
-        let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(processed["pm2.5_alt"]));
+        let calculatedAQI = [];
+        processed.data.forEach(element => calculatedAQI.push(AQICalculator.aqiFromPM(parseFloat(element[4]))));
         processed.AQI = calculatedAQI;
-        processed.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
-        processed.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
+        processed.AQIDescription = [];
+        calculatedAQI.forEach(element => processed.AQIDescription.push(AQICalculator.getAQIDescription(element)));
+        processed.AQIMessage = []
+        calculatedAQI.forEach(element => processed.AQIMessage.push(AQICalculator.getAQIMessage(element)));
         // Save processed data to new array
         processedData.push({
             sensor_ID: data_to_process.sensor_index,
