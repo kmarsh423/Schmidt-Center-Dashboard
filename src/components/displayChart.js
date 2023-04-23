@@ -54,14 +54,18 @@ export async function chartData(inputs){
     const data = await getProcessedData(sensorids, startdate, enddate);
     console.log(data[0])
 
-    labels[data[0].sensor_ID].push(data[0].time_stamp);
-    temperatures[data[0].sensor_ID].push(data[0].feeds.temperature);
-    humidities[data[0].sensor_ID].push(data[0].feeds.humidity);
-    aqis[data[0].sensor_ID].push(data[0].feeds.AQI);
-    pm_2_5_atms[data[0].sensor_ID].push(data[0].feeds["pm2.5"]);
-    pm_10_atms[data[0].sensor_ID].push(data[0].feeds["pm10.0"]);
-    pm_1_atms[data[0].sensor_ID].push(data[0].feeds["pm1.0"]);
-    aqi_descriptions[data[0].sensor_ID].push(data[0].feeds.AQIDescription);
+    
+    data[0].feeds.forEach(element => {
+        labels[data[0].sensor_ID].push(element.data[0]);
+        temperatures[data[0].sensor_ID].push(element.data[2]);
+        humidities[data[0].sensor_ID].push(element.data[1]);
+        aqis[data[0].sensor_ID].push(element.AQI);
+        aqi_descriptions[data[0].sensor_ID].push(element.AQIDescription);
+        pm_2_5_atms[data[0].sensor_ID].push(element.data[4]);
+        pm_10_atms[data[0].sensor_ID].push(element.data[6]);
+        pm_1_atms[data[0].sensor_ID].push(element.data[5]);
+    })
+    
 
     console.log("Humidities" + JSON.stringify(humidities))
     
