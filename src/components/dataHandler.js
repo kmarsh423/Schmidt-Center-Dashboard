@@ -70,7 +70,7 @@ const processData = (data_to_process) =>
 
         // Adding AQI values and message to results
         
-        let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(processed["pm2.5"]));
+        let calculatedAQI = AQICalculator.aqiFromPM(parseFloat(processed["pm2.5_alt"]));
         processed.AQI = calculatedAQI;
         processed.AQIDescription = AQICalculator.getAQIDescription(calculatedAQI);
         processed.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
