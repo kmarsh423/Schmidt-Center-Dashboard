@@ -79,7 +79,6 @@ export default function HandleInputForm () {
   const [result, setresult] = useState("");
 
   const handleSensorChange = (e) => {
-    console.log(Object.values(Object.values(e.target.selectedOptions)[0])[1].defaultValue)
     setInputs((oldValues) => ({
       ...oldValues,
       [e.target.name]: String(Object.values(Object.values(e.target.selectedOptions)[0])[1].defaultValue)
@@ -106,6 +105,7 @@ export default function HandleInputForm () {
     const rootElement = document.getElementById('chart-display');
     const Display = () => displayChart.ShowChart(inputs);
     render(<Display />, rootElement);
+      
   };
 
   // const Detdropdown = () => {
