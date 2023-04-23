@@ -85,55 +85,6 @@ ChartJS.register(
 
 /**
  * 
- */
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Sensor Data Data Chart',
-    },
-  },
-};
-
-/**
- * 
- */
-export const options2 = {
-    responsive: true,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    stacked: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Sensor Data Line Chart - Multi Axis',
-      },
-    },
-    scales: {
-      y: {
-        type: 'linear',
-        display: true,
-        position: 'left',
-      },
-      y1: {
-        type: 'linear',
-        display: true,
-        position: 'right',
-        grid: {
-          drawOnChartArea: false,
-        },
-      },
-    },
-}
-
-/**
- * 
  * @param {*} inputs 
  * @returns 
  */
@@ -233,6 +184,59 @@ export const data = (inputs) => {
 
 }
 
+
+/**
+ * 
+ */
+export const options = {
+    type: 'bar',
+    data: data,
+    
+    responsive: true,
+    plugins: {
+    legend: {
+        position: 'top',
+    },
+    title: {
+        display: true,
+        text: 'Sensor Data Data Chart',
+    },
+    },
+};
+
+/**
+ * 
+ */
+export const options2 = {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    stacked: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Sensor Data Line Chart - Multi Axis',
+      },
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        grid: {
+          drawOnChartArea: false,
+        },
+      },
+    },
+}
+
 /**
  * 
  * @param {*} inputs 
@@ -273,7 +277,7 @@ export function ShowChart(inputs){
 
         return (
             <div>
-                <Line options={options2} data={data(inputs)} />
+                <Line options={options} data={data(inputs)} />
             </div>
         );
 
