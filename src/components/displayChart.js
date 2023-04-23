@@ -273,7 +273,7 @@ export function ShowChart(inputs){
 
         return (
             <div>
-                <Line options={options} data={data(inputs)} />
+                <Line options={options2} data={data(inputs)} />
             </div>
         );
 
