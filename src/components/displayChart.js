@@ -12,7 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 
 import { getProcessedData } from './dataHandler.js';
@@ -66,7 +66,7 @@ export async function chartData(inputs){
     pm_1_atms[data[0].sensor_ID].push(data[0].feeds["pm1.0"]);
     aqi_descriptions[data[0].sensor_ID].push(data[0].feeds.AQIDescription);
     startdates[data[0].sensor_ID].push(startdate);
-    endates[data[0].sensor_ID].push(enddate)
+    endates[data[0].sensor_ID].push(enddate);
 
     console.log("Humidities" + JSON.stringify(humidities))
     
@@ -272,7 +272,7 @@ export function ShowChart(inputs){
 
     return (
         <div>
-            <Bar options={options} data={data(inputs)} />
+            <Line options={options} data={data(inputs)} />
         </div>
     );
 

@@ -16,7 +16,7 @@ const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
 const fetchData = async (sensor_ID, start_date, end_date) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}` ;
+            const apiUrl = `https://api.purpleair.com/v1/sensors/${sensor_ID}/history` ;
             const params = {
                 start: start_date,
                 end: end_date,
