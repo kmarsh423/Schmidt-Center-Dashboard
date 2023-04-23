@@ -54,7 +54,6 @@ export async function chartData(inputs){
     const data = await getProcessedData(sensorids, startdate, enddate);
     console.log(data[0])
 
-    
     data[0].feeds.data.forEach(element => {
         const date = new Date(element[0] * 1000);
         const day = date.getDate()
@@ -62,7 +61,7 @@ export async function chartData(inputs){
         const year = date.getFullYear()
         const hours = date.getHours();
         const minutes = "0" + date.getMinutes()
-        const formattedTime = month + '/' + day + '/' + year + ' ' + hours + ':' + minutes.substring(-1)
+        const formattedTime = month + '/' + day + '/' + year + ' ' + hours + ':' + minutes.slice(-2)
         labels[data[0].sensor_ID].push(formattedTime);
         temperatures[data[0].sensor_ID].push(element[2]);
         humidities[data[0].sensor_ID].push(element[1]);
@@ -76,9 +75,6 @@ export async function chartData(inputs){
     data[0].feeds.AQIDescription.forEach(element => {
         aqi_descriptions[data[0].sensor_ID].push(element);
     })
-    
-    console.log("Humidities" + JSON.stringify(humidities))
-    
     
 }
 
@@ -260,7 +256,6 @@ export function ShowChart(inputs){
             try {
                 await chartData(inputs);
                 setIsLoaded(true);
-                console.log('loaded:', isLoaded)
             }
             catch(err) {
                 console.log('error:', err)
