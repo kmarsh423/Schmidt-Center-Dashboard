@@ -52,6 +52,7 @@ export async function chartData(inputs){
         }
     })
     const data = await getProcessedData(sensorids, startdate, enddate);
+    console.log(data[0])
 
     labels[data[0].sensor_ID].push(data[0].time_stamp);
     temperatures[data[0].sensor_ID].push(data[0].feeds.temperature);

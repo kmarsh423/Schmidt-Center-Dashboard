@@ -67,7 +67,6 @@ const processData = (data_to_process) =>
         // Reprocessing the fields to their correct names indicated in the channels of the data
         // const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
         const processed = data_to_process
-        console.log(processed.data, processed.data[0][4])
         // Adding AQI values and message to results
         
         let calculatedAQI = [];
