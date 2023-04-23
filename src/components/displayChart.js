@@ -253,6 +253,7 @@ export function ShowChart(inputs){
                 console.log('loaded:', isLoaded)
             }
             catch(err) {
+                console.log('error:', err)
                 setError(true);
             }
         };
