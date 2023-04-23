@@ -56,7 +56,13 @@ export async function chartData(inputs){
 
     
     data[0].feeds.data.forEach(element => {
-        labels[data[0].sensor_ID].push(element[0]);
+        const date = new Date(element[0] * 1000);
+        const day = date.getDate()
+        const month = date.getMonth()
+        const hours = date.getHours();
+        const minutes = "0" + date.getMinutes()
+        const formattedTime = day + ' ' + month + ' ' + hours + ':' + minutes.substring(-2)
+        labels[data[0].sensor_ID].push(formattedTime);
         temperatures[data[0].sensor_ID].push(element[2]);
         humidities[data[0].sensor_ID].push(element[1]);
         pm_2_5_atms[data[0].sensor_ID].push(element[4]);
