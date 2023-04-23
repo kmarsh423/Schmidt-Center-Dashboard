@@ -66,7 +66,7 @@ const processData = (data_to_process) =>
         
         // Reprocessing the fields to their correct names indicated in the channels of the data
         // const reg = /[^a-zA-Z\d:\u00C0-\u00FF]/g
-        const processed = data_to_process.sensor
+        const processed = data_to_process
 
         // Adding AQI values and message to results
         
@@ -76,7 +76,7 @@ const processData = (data_to_process) =>
         processed.AQIMessage = AQICalculator.getAQIMessage(calculatedAQI);
         // Save processed data to new array
         processedData.push({
-            sensor_ID: data_to_process.sensor.sensor_index,
+            sensor_ID: data_to_process.sensor_index,
             feeds: processed
         });
     
