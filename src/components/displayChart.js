@@ -55,18 +55,21 @@ export async function chartData(inputs){
     console.log(data[0])
 
     
-    data[0].feeds.forEach(element => {
-        labels[data[0].sensor_ID].push(element.data[0]);
-        temperatures[data[0].sensor_ID].push(element.data[2]);
-        humidities[data[0].sensor_ID].push(element.data[1]);
-        aqis[data[0].sensor_ID].push(element.AQI);
-        aqi_descriptions[data[0].sensor_ID].push(element.AQIDescription);
-        pm_2_5_atms[data[0].sensor_ID].push(element.data[4]);
-        pm_10_atms[data[0].sensor_ID].push(element.data[6]);
-        pm_1_atms[data[0].sensor_ID].push(element.data[5]);
+    data[0].feeds.data.forEach(element => {
+        labels[data[0].sensor_ID].push(element[0]);
+        temperatures[data[0].sensor_ID].push(element[2]);
+        humidities[data[0].sensor_ID].push(element[1]);
+        pm_2_5_atms[data[0].sensor_ID].push(element[4]);
+        pm_10_atms[data[0].sensor_ID].push(element[6]);
+        pm_1_atms[data[0].sensor_ID].push(element[5]);
+    })
+    data[0].feeds.AQI.forEach(element => {
+        aqis[data[0].sensor_ID].push(element);
+    })
+    data[0].feeds.AQIDescription.forEach(element => {
+        aqi_descriptions[data[0].sensor_ID].push(element);
     })
     
-
     console.log("Humidities" + JSON.stringify(humidities))
     
     
