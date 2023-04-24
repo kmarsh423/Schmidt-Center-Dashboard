@@ -57,7 +57,7 @@ export async function chartData(inputs){
     data[0].feeds.data.forEach(element => {
         const date = new Date(element[0] * 1000);
         const day = date.getDate()
-        const month = date.getMonth()
+        const month = date.getMonth() + 1
         const year = date.getFullYear()
         const hours = date.getHours();
         const minutes = "0" + date.getMinutes()
