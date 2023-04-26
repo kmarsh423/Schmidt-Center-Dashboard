@@ -55,14 +55,14 @@ export async function chartData(inputs){
     console.log(data[0])
 
     data[0].feeds.data.forEach(element => {
-        const date = new Date(element[0] * 1000);
+        // const date = new Date(element[0] * 1000);
         // const day = date.getDate()
         // const month = date.getMonth() + 1
         // const year = date.getFullYear()
         // const hours = date.getHours();
         // const minutes = "0" + date.getMinutes()
         // const formattedTime = month + '/' + day + '/' + year + ' ' + hours + ':' + minutes.slice(-2)
-        labels[data[0].sensor_ID].push(date);
+        labels[data[0].sensor_ID].push(element[0]);
         temperatures[data[0].sensor_ID].push(element[2]);
         humidities[data[0].sensor_ID].push(element[1]);
         pm_2_5_atms[data[0].sensor_ID].push(element[4]);
