@@ -62,7 +62,7 @@ export async function chartData(inputs){
         const hours = date.getHours();
         const minutes = "0" + date.getMinutes()
         const formattedTime = month + '/' + day + '/' + year + ' ' + hours + ':' + minutes.slice(-2)
-        labels[data[0].sensor_ID].push(formattedTime);
+        labels[data[0].sensor_ID].push(date);
         temperatures[data[0].sensor_ID].push(element[2]);
         humidities[data[0].sensor_ID].push(element[1]);
         pm_2_5_atms[data[0].sensor_ID].push(element[4]);
