@@ -1,7 +1,6 @@
 import './App.css';
 import NavBar from './components/NavBar.js';
 import Home from './pages/Home.js';
-import Map from './pages/Map.js';
 import DashBoard from './pages/DashBoard.js';
 import React from 'react';
 
@@ -20,7 +19,6 @@ export default function App() {
         <NavBar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/Map' element={<Map />} />
           <Route path='/DashBoard' element={<DashBoard />} />
         </Routes>
       </div>
