@@ -52,8 +52,8 @@ export async function chartData(inputs){
         }
     })
     const data = await getProcessedData(sensorids, startdate, enddate);
-    console.log(data[0], typeof(data[0]))
-    const n_data = Array.from(data[0]).sort(sortFunction)
+    console.log(data[0])
+    const n_data = data[0].feeds.data.sort(sortFunction)
     function sortFunction(a, b) {
         if (a[0] === b[0]) {
             return 0;
@@ -71,15 +71,15 @@ export async function chartData(inputs){
         const hours = date.getHours();
         const minutes = "0" + date.getMinutes()
         const formattedTime = month + '/' + day + '/' + year + ' ' + hours + ':' + minutes.slice(-2)
-        labels[n_data.sensor_ID].push(formattedTime);
-        temperatures[n_data.sensor_ID].push(element[2]);
-        humidities[n_data.sensor_ID].push(element[1]);
-        pm_2_5_atms[n_data.sensor_ID].push(element[4]);
-        pm_10_atms[n_data.sensor_ID].push(element[6]);
-        pm_1_atms[n_data.sensor_ID].push(element[5]);
+        labels[data[0].sensor_ID].push(formattedTime);
+        temperatures[data[0].sensor_ID].push(element[2]);
+        humidities[data[0].sensor_ID].push(element[1]);
+        pm_2_5_atms[data[0].sensor_ID].push(element[4]);
+        pm_10_atms[data[0].sensor_ID].push(element[6]);
+        pm_1_atms[data[0].sensor_ID].push(element[5]);
     })
     n_data.feeds.AQI.forEach(element => {
-        aqis[n_data.sensor_ID].push(element);
+        aqis[data[0].sensor_ID].push(element);
     })
     n_data.feeds.AQIDescription.forEach(element => {
         aqi_descriptions[n_data.sensor_ID].push(element);
