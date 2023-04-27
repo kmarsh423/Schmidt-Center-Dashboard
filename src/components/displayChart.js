@@ -56,6 +56,7 @@ export async function chartData(inputs){
         for(let i =0; i<a1.length; i++){
             a1[i].push(a2[i])
         }
+        return a1
     }
     function sortFunction(a, b) {
         if (a[0] === b[0]) {
