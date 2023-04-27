@@ -165,7 +165,7 @@ export const data = (inputs) => {
 
     console.log('inputs:',inputs)
     const sensor = inputs.sensorid;
-    let label = 'Primary Sensor ';
+    let label = 'Sensor ';
         // Sensor Temperature data
     if(inputs.temperature) {
         const color = getColor();
