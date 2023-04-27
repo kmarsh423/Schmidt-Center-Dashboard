@@ -54,14 +54,14 @@ export async function chartData(inputs){
     const data = await getProcessedData(sensorids, startdate, enddate);
     console.log(data[0].feeds.data)
     // n_data = data[0].feeds.data.sort(sortFunction)
-    function sortFunction(a, b) {
-        if (a[0] === b[0]) {
-            return 0;
-        }
-        else {
-            return (a[0] < b[0]) ? -1 : 1;
-        }
-    }
+    // function sortFunction(a, b) {
+    //     if (a[0] === b[0]) {
+    //         return 0;
+    //     }
+    //     else {
+    //         return (a[0] < b[0]) ? -1 : 1;
+    //     }
+    // }
 
     data[0].feeds.data.forEach(element => {
         const date = new Date(element[0] * 1000);
