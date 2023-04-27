@@ -52,18 +52,27 @@ export async function chartData(inputs){
         }
     })
     const data = await getProcessedData(sensorids, startdate, enddate);
+    function combine(a1, a2) {
+        for(let i =0; i<a1.length; i++){
+            a1[i].push(a2[i])
+        }
+    }
+    function sortFunction(a, b) {
+        if (a[0] === b[0]) {
+            return 0;
+        }
+        else {
+            return (a[0] < b[0]) ? -1 : 1;
+        }
+    }
+    let n_data = combine(data[0].feeds.data, data[0].feeds.AQI)
+    n_data = combine(n_data, data[0].feeds.AQIDescription)
+    n_data = n_data.sort(sortFunction)
+    
+    
     console.log(data[0].feeds.data)
-    // n_data = data[0].feeds.data.sort(sortFunction)
-    // function sortFunction(a, b) {
-    //     if (a[0] === b[0]) {
-    //         return 0;
-    //     }
-    //     else {
-    //         return (a[0] < b[0]) ? -1 : 1;
-    //     }
-    // }
-
-    data[0].feeds.data.forEach(element => {
+    console.log(n_data)
+    n_data.forEach(element => {
         const date = new Date(element[0] * 1000);
         const day = date.getDate()
         const month = date.getMonth() + 1
@@ -77,12 +86,8 @@ export async function chartData(inputs){
         pm_2_5_atms[data[0].sensor_ID].push(element[4]);
         pm_10_atms[data[0].sensor_ID].push(element[6]);
         pm_1_atms[data[0].sensor_ID].push(element[5]);
-    })
-    data[0].feeds.AQI.forEach(element => {
-        aqis[data[0].sensor_ID].push(element);
-    })
-    data[0].feeds.AQIDescription.forEach(element => {
-        aqi_descriptions[data[0].sensor_ID].push(element);
+        aqis[data[0].sensor_ID].push(element[7]);
+        aqi_descriptions[data[0].sensor_ID].push(element[8]);
     })
     
 }
