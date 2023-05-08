@@ -17,6 +17,10 @@ import { Line } from 'react-chartjs-2';
 
 import { getProcessedData } from './dataHandler.js';
 
+/*
+These hold the data passed through from the helper api file ./dataHandler.js
+*/
+
 const labels = {};
 const pm_1_atms = {};
 const temperatures = {};
@@ -27,18 +31,20 @@ const pm_10_atms = {};
 const aqi_descriptions = {};
 
 /**
- * 
+ * This funciton takes the data from the datahandler and puts them into the variables above.
  * @param {*} inputs 
  */
 export async function chartData(inputs){
 
+
     let sensorids = [inputs.sensorid];
-    if(inputs.sensorid2){
-        sensorids.push(inputs.sensorid2);
-    }
+    // This if you want to implement another sensorid so that you have two concurrent sensorids
+    // if(inputs.sensorid2){
+    //     sensorids.push(inputs.sensorid2);
+    // }
     const startdate = inputs.startdate;
     const enddate = inputs.enddate;
-    // Initialize
+    // Initialize the values with the sensor id as the key
     sensorids.forEach(sensor => {
         if(sensor !== ""){
             labels[sensor] = [];
@@ -51,7 +57,10 @@ export async function chartData(inputs){
             aqi_descriptions[sensor] = [];
         }
     })
+    // Gets the data from datahandler. This function is found in /dataHandler
     const data = await getProcessedData(sensorids, startdate, enddate);
+
+    // The next two nested functions sort the data by time
     function combine(a1, a2) {
         for(let i =0; i<a1.length; i++){
             a1[i].push(a2[i])
@@ -66,13 +75,16 @@ export async function chartData(inputs){
             return (a[0] < b[0]) ? -1 : 1;
         }
     }
+    // calls the order functions
     let n_data = combine(data[0].feeds.data, data[0].feeds.AQI)
     n_data = combine(n_data, data[0].feeds.AQIDescription)
     n_data = n_data.sort(sortFunction)
     
-    
-    console.log(data[0].feeds.data)
-    console.log(n_data)
+    // For testing:
+    // console.log(data[0].feeds.data)
+    // console.log(n_data)
+
+    // populates the dictionaries that will hold the data
     n_data.forEach(element => {
         const date = new Date(element[0] * 1000);
         const day = date.getDate()
@@ -104,7 +116,7 @@ ChartJS.register(
 );
 
 /**
- * 
+ * The title of the dashboard chart
  */
 export const options = {
     responsive: true,
@@ -120,7 +132,7 @@ export const options = {
 };
 
 /**
- * 
+ * Unused title for two concurrent sensor id functions
  */
 export const options2 = {
     responsive: true,
@@ -153,9 +165,9 @@ export const options2 = {
 }
 
 /**
- * 
+ * Initializes the data for the graph from the input data.
  * @param {*} inputs 
- * @returns 
+ * @returns data with randomly generated colors
  */
 export const data = (inputs) => {
     const data = {
@@ -254,13 +266,12 @@ export const data = (inputs) => {
 }
 
 /**
- * 
+ * Function is designed to display the chart to the front end
  * @param {*} inputs 
  * @returns 
  */
 export function ShowChart(inputs){
 
-    console.log("Here we are");
     const [error, setError] = useState(null);   
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -301,8 +312,8 @@ export function ShowChart(inputs){
 }
 
 /**
- * 
- * @returns 
+ * Get's the randomly generated colors
+ * @returns random color
  */
 function getColor() {
 
@@ -312,9 +323,9 @@ function getColor() {
 }
 
 /**
- * 
+ * Gets the background color for each variable
  * @param {*} color 
- * @returns 
+ * @returns background color
  */
 function getBackgroundColor(color){
     return (color.replace(')', '').replace('rgb', 'rgba') + ',0.5)');

@@ -14,13 +14,10 @@ const dropdownlist = async() => {
   let central = "<optgroup label='Central County'>";
   let rural = "<optgroup label='Rural Tier'>";
   let inner = "<optgroup label='Inner Beltsway'>";
-  //const [sensoridlists, setSensoridlists] = useState(null);
 
   try{
     let data = await fetch('/.netlify/functions/allSensorsIDs');
-    //data = data.json();
     const sensoridlists = await data.json();
-    //setSensoridlists(data);
     console.log("ID Lists: ", sensoridlists)
     for(let key in sensoridlists){
       if(sensoridlists.hasOwnProperty(key)){
@@ -108,40 +105,11 @@ export default function HandleInputForm () {
       
   };
 
-  // const Detdropdown = () => {
-  //   //event.preventDefault();
-  //   //const rootElement = document.getElementById('sensor-id');
-  //   //let result = ["wewewe"];
-  //   useEffect(() => {
-  //     const List = async() => await dropdownlist();
-  //     List().then(data => {
-  //       setresult(data);
-  //       //result.push(data);
-  //       console.log("trfehjh: "+ result );
-  //       //return result;
-  //   });
-
-  //   })
-  //   // const List = async() => await dropdownlist();
-  //   // List().then(data => {
-  //   //   result.push(data);
-  //   //   console.log("trfehjh: "+ result );
-  //   //   return result;
-  //   // });
-  //   //delay(1000000);
-  //   console.log("Listweeed: " + result)
-  //   return result;
-  //   //render(<List />, rootElement);
-  // }
-
   useEffect(() => {
     const List = async() => await dropdownlist();
     List().then(data => {
       
       setresult(data);
-      //result.push(data);
-      //console.log("trfehjh: "+ result );
-      //return result;
     }) 
   });
 
@@ -172,19 +140,6 @@ export default function HandleInputForm () {
               <option value="" disabled defaultValue hidden>Primary Sensor (required)</option>
               {Parser(result )}
             </select>
-            {/* <select
-              type='number'
-              id='sensor-id2'
-              name='sensorid2'
-              htmlFor='sensor-id2'
-              className='font-medium'
-              value={inputs.sensorid2}
-              onChange={handleSensorChange}
-            >
-              <option value="" disabled defaultValue hidden>Second Sensor (optional)</option>
-              <option value="" >None</option>
-              {Parser(result)}
-            </select> */}
             <h2 className='text-blue-600 mb-2 mt-2 px-1'>
               <b>Select Dates:</b>
             </h2>

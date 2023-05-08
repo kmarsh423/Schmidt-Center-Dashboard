@@ -1,12 +1,9 @@
-//import { aqiFromPM, getAQIDescription, getAQIMessage } from "./AQIcalculator.js";
-//import { getUpdatedSensorsData } from "./purpleairDataHandler.js";
 
 var fetch = require('node-fetch');
 var AQICalculator = require('./AQIcalculator.js');
 const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
 /**
- * This function get the data from thingspeak after retreiving the sensor's channel id and API from
- * purpleair data.
+ * This function get the data from purple air's historical data
  * @param {*} sensor_IDs: array of sensor ids to retreive the data for. Could be an array of one value 
  * @param {*} start_date: The start date for which to retreive the data. 
  * @param {*} end_date: The End date for which to retreive the data. 
@@ -54,7 +51,7 @@ const fetchData = async (sensor_ID, start_date, end_date) => {
 };
 
 /**
- * This function process the data from thingspeak ensuring proper field name
+ * This function process the data from purpleair ensuring proper field name
  * @param {*} data_to_process : Raw sensor data to be processed
  * @returns : The processed sensor data
  */
@@ -94,25 +91,3 @@ const processData = (data_to_process) =>
 export async function getProcessedData( sensor_IDs, start_date, end_date) {
     return processData((await fetchData(sensor_IDs, start_date, end_date)));
 }
-
-// Get the raw data
-// async function getRawData(sensor_IDs, start_date, end_date) {
-//     return (await fetchData(sensor_IDs, start_date, end_date));
-// }
-// For testing 
-// async function logData()
-// {
-//     const sensor_IDs = [131815, 102898];
-//     console.log("testing", sensor_IDs)
-//     const start_date = "2021-10-01";
-//     const end_date = "2021-11-01";
-//     //const singleSensorData = (await getThingspeakRawData(sensor_IDs, start_date, end_date))
-//     const singleSensorData = (await getThingspeakProcessedData(sensor_IDs, start_date, end_date))
-//     console.log('Inside load data', singleSensorData);
-//     console.log(JSON.stringify(singleSensorData))
-//     const div = document.createElement('div');
-//     div.innerHTML = `<h2>What we have</h2> <br />${JSON.stringify(singleSensorData)}<br /><br />`;
-//     $('body').append(div);
-// }
-
-// window.onload = logData;
