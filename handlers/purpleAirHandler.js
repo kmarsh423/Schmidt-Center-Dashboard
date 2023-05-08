@@ -1,8 +1,8 @@
-//import { aqiFromPM, getAQIDescription, getAQIMessage } from "./AQIcalculator.js";
-//import { getUpdatedSensorsData } from "./purpleairDataHandler.js";
+//HANDLERS HANDLE THE CALLS FOR THE MAP
 var fetch = require('node-fetch');
 var AQICalculator = require('./AQIcalculator.js');
-const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
+//PUT NEW KEY BELOW
+const api_key = ''
 /**
  * This function get the data from thingspeak after retreiving the sensor's channel id and API from
  * purpleair data.

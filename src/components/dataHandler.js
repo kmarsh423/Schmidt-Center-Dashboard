@@ -1,7 +1,8 @@
 
 var fetch = require('node-fetch');
 var AQICalculator = require('./AQIcalculator.js');
-const api_key = '1182661F-CF65-11ED-B6F4-42010A800007'
+//PUT NEW KEY BELOW
+const api_key = ''
 /**
  * This function get the data from purple air's historical data
  * @param {*} sensor_IDs: array of sensor ids to retreive the data for. Could be an array of one value 
